@@ -1,0 +1,31 @@
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from time import sleep
+from selenium.webdriver.chrome.options import Options
+
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+
+webdriver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+sleep(2)
+
+webdriver.get('https://community.goodgamestudios.com/empire/tr/discussion/378415/forum-kurallari#latest')
+
+# #1
+# webdriver.execute_script("window.open('about:blank', '1');")
+# webdriver.switch_to.window("1")
+# webdriver.get('https://community.goodgamestudios.com/empire/tr/discussion/378415/forum-kurallari#latest')
+# #2
+# webdriver.execute_script("window.open('about:blank', '2');")
+# webdriver.switch_to.window("2")
+# webdriver.get('https://community.goodgamestudios.com/empire/tr/discussion/375996/moderatoerue-etiketle#latest')
+
+sleep(2)
+
+while True:
+    # webdriver.switch_to.window("1")
+    # webdriver.refresh()
+    # webdriver.switch_to.window("2")
+    webdriver.refresh()
+    sleep(1)
+
