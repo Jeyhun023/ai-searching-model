@@ -5,8 +5,8 @@ q = open("questions.txt", "r")
 d = open("dictionary.txt", "r")
 questions = json.loads(q.read())
 dictionary = json.loads(d.read())
-print(len(questions))
-print(len(dictionary))
+
+# print(len(dictionary))
 #print(dictionary)
 data = []
 for q in questions:

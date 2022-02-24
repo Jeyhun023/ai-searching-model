@@ -62,40 +62,19 @@ def reprocess(data, begin, finish):
         len_post+=len(question)
         questions_proccesed += 1
         questions.append(question)
-    # no_dup_avg_len_pre=(len_pre*1.0)/questions_proccesed
-    # no_dup_avg_len_post=(len_post*1.0)/questions_proccesed
-    # print( "\nAvg. length of questions(Title+Body) before processing: %d"%no_dup_avg_len_pre)
-    # print( "\nAvg. length of questions(Title+Body) after processing: %d"%no_dup_avg_len_post)
-    # print ("\nPercent of questions containing code: %d"%((questions_with_code*100.0)/questions_proccesed))
-    # print("\nTime taken to run this cell :", datetime.datetime.now() - start)
+  
     tfidf = TfidfVectorizer()
     tfidf.fit_transform(questions)
     dictionary = dict(zip(tfidf.get_feature_names(),tfidf.idf_))
-    return dictionary
+    return dictionary, questions
 
 
-async def main():
-    task1 = asyncio.create_task(
-        reprocess(data, 10, 15))
 
-    task2 = asyncio.create_task(
-        reprocess(data, 10, 15))
+dictionary, questions = reprocess(data, 1, 37515)
 
-    print(f"started at {time.strftime('%X')}")
-
-    # Wait until both tasks are completed (should take
-    # around 2 seconds.)
-    await task1
-    await task2
-
-    print(f"finished at {time.strftime('%X')}")
-
-asyncio.run(main())
-reprocess(data, 10, 15)
-
-  # f = open("questions.txt", "w")
-  # f.write(json.dumps(questions))
-  # f.close()
-  # f = open("dictionary.txt", "w")
-  # f.write(json.dumps(dictionary))
-  # f.close()
+f = open("questions.txt", "w")
+f.write(json.dumps(questions))
+f.close()
+f = open("dictionary.txt", "w")
+f.write(json.dumps(dictionary))
+f.close()
