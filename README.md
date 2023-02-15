@@ -1,59 +1,39 @@
-# Measure of Software Similarity (Plagiarism Checker)
-This project gives the measure of plagiarized content between software codes and also highlights the similar blocks
-Python implementation of Winnowing approach as well as Sequence Matcher (difflib) approach
+1. Sentence Transformers: Multilingual Sentence, Paragraph, and Image Embeddings using BERT & Co.
 
-## Getting Started
- - Python 3.5+ required to execute seqMatcher.py and Python 3+ for winnowing.py
+This framework provides an easy method to compute dense vector representations for sentences, paragraphs, and images. The models are based on transformer networks like BERT / RoBERTa / XLM-RoBERTa etc. and achieve state-of-the-art performance in various task. Text is embedding in vector space such that similar text is close and can efficiently be found using cosine similarity.
 
- - Pygments 2.1+
- 
-  Linux terminal
-  ```
-  sudo apt-get install python-pygments
-  ```
-  Windows shell (administrator)
-  ```
-  pip install pygments
-  ```
-## Usage
-Run either winnowing.py / seqMatcher.py
+2. Installation
+
+I recommend Python 3.6 or higher, PyTorch 1.6.0 or higher and transformers v4.6.0 or higher. The code does not work with Python 2.7.
+
+Install the sentence-transformers with pip:
+
+pip install -U sentence-transformers
+
+Install from sources
+
+Alternatively, you can also clone the latest version from the repository and install it directly from the source code:
+
+pip install -e .
+
+If you want to use a GPU / CUDA, you must install PyTorch with the matching CUDA Version. Follow PyTorch - Get Started for further details how to install PyTorch.
+
+3. Pre-Trained Models
+
+This repo provide a large list of Pretrained Models for more than 100 languages. Some models are general purpose models, while others produce embeddings for specific use cases. Pre-trained models can be loaded by just passing the model name: SentenceTransformer('model_name').
+
+4. Usage
 ```
-python3 winnowing.py
-```
-```
-python3 seqMatcher.py
-```
-The program will prompt you to enter path to the codes to be checked for plagiarism.
+from sentence_transformers import SentenceTransformer
+model = SentenceTransformer('all-MiniLM-L6-v2')
 
-# cleanUp.py
-The above program cleans the software codes to be checked for plagiarism by removing white spaces, denoising the content i.e replacing variable names throughout by 'N', strings by 'S' and  user defined function names by 'F'.
+sentences = ['This framework generates embeddings for each input sentence',
+    'Sentences are passed as a list of string.', 
+    'The quick brown fox jumps over the lazy dog.']
+sentence_embeddings = model.encode(sentences)
 
-By cleaning up the codes, the efficiency of plagiarism detector is no longer affected by changes in identifiers.
-
-# winnowing.py 
-This program employs winnowing algorithm to detect plagiarized content. 
-
-It takes paths to two code files as input. The output is the content of file 1 with plagiarized content highlighted. If there is no plagiarized content between the two code files then the output is simply 'Not Plagiarized'.
-
-# seqMatcher.py
-### Just a demonstration. For MOSS application, winnowing is more suited.
-This program again  takes paths to two code files as input and produces two outputs:
-1. The ratio of plagiarized content between them
-2. The blocks of plagiarized code are printed (file 1 is used for printing). 
-
-# Sequence Matcher approach 
-### This approach although not preferable for building MOSS, can come handy in building normal text plagiarism checkers
-Sequence matcher from Python module difflib is used after cleaning up the code to get percentage of plagiarized content as well as matching blocks.
-
-The matching blocks are mapped to the original codes and the plagiarized code snippet is printed.
-
-Changes in positions of blocks of codes does not affect the efficiency.
-
-# Author
-### Agranya Pratap Singh
-Thanks to Shashwat Sanket (@shashwatsanket997) for suggesting use of Python difflib module (sequence matcher).
-
-# References - Winnowing approach
-The following research paper was referred for implementation of winnowing approach:      
-
-(http://theory.stanford.edu/~aiken/publications/papers/sigmod03.pdf)    
+for sentence, embedding in zip(sentences, sentence_embeddings):
+    print("Sentence:", sentence)
+    print("Embedding:", embedding)
+    print("")
+    ```
